@@ -7,9 +7,9 @@ import {die, edge, live} from './utils'
  * @returns an empty two dimensional array
  */
 function build(cols: number, rows: number): ResultingGeneration {
-  const grid: ResultingGeneration = new Array(rows)
-  for (let i = 0; i < rows; i++) {
-    grid[i] = new Array(cols)
+  const grid: ResultingGeneration = new Array(Math.max(1, rows))
+  for (let i = 0; i < Math.max(1, rows); i++) {
+    grid[i] = new Array(Math.max(1, cols))
   }
   return grid
 }
@@ -33,14 +33,16 @@ function draw(
   return grid
 }
 
-function parse(rows: number): InputGeneration {
-  const input: InputGeneration = new Array(rows)
-  let line = 0
-  while (line < rows) {
-    input[line] = ['.', '*', '*', '.', '.', '*', '*', '.']
-    line++
-  }
-  return input
+function parse(text: string): InputGeneration {
+  return text.length
+    ? text
+        .slice(20, text.length)
+        .split('')
+        .filter(v => v == '.' || v == '*' || v == '\n')
+        .toString()
+        .split('\n')
+        .map(str => str.split('').filter(v => v == '.' || v == '*'))
+    : [[]]
 }
 
 /**

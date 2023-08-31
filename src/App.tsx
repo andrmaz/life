@@ -1,46 +1,62 @@
 import * as React from 'react'
-import {build, compute, draw, parse} from './helpers/main'
-import {ResultingGeneration} from './types'
+
 import {Grid} from './components/Grid'
 import {Cell} from './components/Cell'
 
 const resolution = 600
-const delay = 1000
-const cols = 8
-const rows = 8
 
 function App() {
-  const [generation, setGeneration] = React.useState<ResultingGeneration>(() =>
-    draw(build(cols, rows), parse(rows))
-  )
+  const [text, setText] = React.useState('')
+  const [rows, setRows] = React.useState(0)
+  const [cols, setCols] = React.useState(0)
+
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+    const file = event.target.files?.[0]
+    if (file) {
+      file.text().then(setText).catch(console.error)
+    } else {
+      console.warn('Could not find file')
+    }
+  }
 
   React.useEffect(() => {
-    const timeout = setInterval(() => {
-      setGeneration(compute(generation))
-    }, delay)
-    return () => clearInterval(timeout)
-  })
+    if (text.length) {
+      setRows(parseInt(text.at(15) || '0'))
+      setCols(parseInt(text.at(17) || '0'))
+    }
+  }, [text])
 
   return (
-    <Grid resolution={resolution} cols={cols} rows={rows}>
-      {generation.map(index => {
-        return (
-          <React.Fragment key={Math.random()}>
-            {index.map(state => {
-              return (
-                <Cell
-                  key={Math.random()}
-                  state={state}
-                  resolution={resolution}
-                  cols={cols}
-                  rows={rows}
-                />
-              )
-            })}
-          </React.Fragment>
-        )
-      })}
-    </Grid>
+    <>
+      <input
+        type='file'
+        id='file'
+        accept='.txt*'
+        style={{margin: '0.4rem 0'}}
+        onChange={onChange}
+      />
+      <Grid cols={cols} rows={rows} resolution={resolution} text={text}>
+        {generation =>
+          generation.map(index => {
+            return (
+              <React.Fragment key={Math.random()}>
+                {index.map(state => {
+                  return (
+                    <Cell
+                      key={Math.random()}
+                      state={state}
+                      cols={cols}
+                      rows={rows}
+                      resolution={resolution}
+                    />
+                  )
+                })}
+              </React.Fragment>
+            )
+          })
+        }
+      </Grid>
+    </>
   )
 }
 
