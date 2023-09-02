@@ -7,18 +7,15 @@ import {Slider} from './Slider'
 import {Details} from './Details'
 
 interface Props<T> {
-  cols: number
-  rows: number
   text: string
+  rows: number
+  cols: number
   children: (data: T) => React.ReactNode
 }
 
-export const Grid = ({cols, rows, text, children}: Props<Generation>) => {
-  const [delay, setDelay] = React.useState(1000)
+export const Grid = ({text, rows, cols, children}: Props<Generation>) => {
   const [generation, setGeneration] = React.useState<Generation>([[]])
-
-  const onDelayUpdate: React.ChangeEventHandler<HTMLInputElement> = event =>
-    setDelay(parseInt(event.target.value))
+  const [delay, setDelay] = React.useState(1000)
 
   React.useEffect(() => {
     setGeneration(draw(build(cols, rows), parse(text)))
@@ -31,10 +28,17 @@ export const Grid = ({cols, rows, text, children}: Props<Generation>) => {
     return () => clearInterval(timeout)
   })
 
+  const onDelayUpdate: React.ChangeEventHandler<HTMLInputElement> = event =>
+    setDelay(parseInt(event.target.value))
+
   return (
     <>
       <Details
-        list={[{term: 'Generation:', description: countLiveCells(generation)}]}
+        list={[
+          {term: 'Generation:', description: countLiveCells(generation)},
+          {term: 'Rows:', description: rows},
+          {term: 'Cols:', description: cols},
+        ]}
       />
       <Slider onChange={onDelayUpdate} value={delay} />
       <div
