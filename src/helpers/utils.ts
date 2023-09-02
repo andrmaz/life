@@ -1,3 +1,21 @@
+import {Generation, GenerationState} from '../types'
+
+/**
+ * @param  {Generation} grid a populated generation
+ * @returns the count of living cells
+ */
+function countLiveCells(grid: Generation) {
+  return grid.length > 1
+    ? grid
+        .map(axis =>
+          axis
+            .filter(state => state == GenerationState.alive)
+            .reduce((acc, curr) => acc + curr, 0)
+        )
+        .reduce((acc, curr) => acc + curr, 0)
+    : 0
+}
+
 /**
  * @param  {number} state the current state of the cell
  * @param  {number} neighbors the count of living neighbors
@@ -8,7 +26,7 @@ function live(state: number, neighbors: number): boolean {
 }
 
 function died(state: number): state is 0 {
-  return state == 0
+  return state == GenerationState.dead
 }
 
 /**
@@ -21,7 +39,7 @@ function die(state: number, neighbors: number): boolean {
 }
 
 function alive(state: number): state is 1 {
-  return state == 1
+  return state == GenerationState.alive
 }
 
 /**
@@ -43,4 +61,8 @@ function isLast(curr: number, length: number) {
   return curr == length - 1
 }
 
-export {edge, die, live}
+function removeLine(text: string): string {
+  return text.slice(text.indexOf('\n') + 1, text.length)
+}
+
+export {edge, die, live, countLiveCells, removeLine}

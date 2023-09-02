@@ -1,25 +1,24 @@
 import * as React from 'react'
 import {build, compute, draw, parse} from '../helpers/main'
-import {ResultingGeneration} from '../types'
+import {Generation} from '../types'
+import {resolution} from '../App'
+import {countLiveCells} from '../helpers/utils'
+import {Slider} from './Slider'
+import {Details} from './Details'
 
 interface Props<T> {
   cols: number
   rows: number
-  resolution: number
   text: string
   children: (data: T) => React.ReactNode
 }
 
-const delay = 1000
+export const Grid = ({cols, rows, text, children}: Props<Generation>) => {
+  const [delay, setDelay] = React.useState(1000)
+  const [generation, setGeneration] = React.useState<Generation>([[]])
 
-export const Grid = ({
-  cols,
-  rows,
-  resolution,
-  text,
-  children,
-}: Props<ResultingGeneration>) => {
-  const [generation, setGeneration] = React.useState<ResultingGeneration>([[]])
+  const onDelayUpdate: React.ChangeEventHandler<HTMLInputElement> = event =>
+    setDelay(parseInt(event.target.value))
 
   React.useEffect(() => {
     setGeneration(draw(build(cols, rows), parse(text)))
@@ -33,16 +32,22 @@ export const Grid = ({
   })
 
   return (
-    <div
-      style={{
-        width: `${resolution}px`,
-        display: 'grid',
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gridTemplateRows: `repeat(${rows}, 1fr)`,
-        gap: '1px',
-      }}
-    >
-      {children(generation)}
-    </div>
+    <>
+      <Details
+        list={[{term: 'Generation:', description: countLiveCells(generation)}]}
+      />
+      <Slider onChange={onDelayUpdate} value={delay} />
+      <div
+        style={{
+          width: `${resolution}px`,
+          display: 'grid',
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+          gap: '1px',
+        }}
+      >
+        {children(generation)}
+      </div>
+    </>
   )
 }

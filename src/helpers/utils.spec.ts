@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest'
-import {die, edge, live} from './utils'
+import {die, edge, live, removeLine} from './utils'
 
 test('should fill current cell when it is died and neighbors count equals 3', () => {
   expect(live(0, 3)).toBeTruthy()
@@ -35,4 +35,14 @@ test('should detect if current cell is on the last row', () => {
 
 test('should detect if current cell is on the last column', () => {
   expect(edge(1, 4, 3, 4)).toBeTruthy()
+})
+
+test('should remove the first line of the provided text', () => {
+  expect(
+    removeLine(
+      'Generation 3:\n4 8\n. . . . . . . .\n. . . . * . . .\n. . . * * . . . . . . . . . . .'
+    )
+  ).toBe(
+    '4 8\n. . . . . . . .\n. . . . * . . .\n. . . * * . . . . . . . . . . .'
+  )
 })
