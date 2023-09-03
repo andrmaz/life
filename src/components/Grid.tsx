@@ -42,12 +42,10 @@ export const Grid = ({text, rows, cols, children}: Props<Generation>) => {
       />
       <Slider onChange={onDelayUpdate} value={delay} />
       <div
+        className={`w-${resolution} grid gap-px`}
         style={{
-          width: `${resolution}px`,
-          display: 'grid',
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
           gridTemplateRows: `repeat(${rows}, 1fr)`,
-          gap: '1px',
         }}
       >
         {children(generation)}

@@ -5,7 +5,8 @@ interface Props {
 
 export const Slider = ({value, onChange}: Props) => {
   return (
-    <div>
+    <div className='flex flex-col mb-2 w-2/5'>
+      <label htmlFor='delay'>Delay: {value}ms</label>
       <input
         type='range'
         id='delay'
@@ -16,7 +17,6 @@ export const Slider = ({value, onChange}: Props) => {
         value={value}
         onChange={onChange}
       />
-      <label htmlFor='delay'>Delay: {value}ms</label>
     </div>
   )
 }

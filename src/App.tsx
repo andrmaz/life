@@ -29,7 +29,7 @@ function App() {
   }
 
   return (
-    <>
+    <main className='w-fit m-auto p-16'>
       <Upload onChange={onFileUpload} />
       <Grid text={text} rows={rows} cols={cols}>
         {generation =>
@@ -51,7 +51,7 @@ function App() {
           })
         }
       </Grid>
-    </>
+    </main>
   )
 }
 

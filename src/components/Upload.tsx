@@ -8,7 +8,7 @@ export const Upload = ({onChange}: Props) => {
       type='file'
       id='file'
       accept='.txt*'
-      style={{margin: '0.4rem 0'}}
+      className='my - 1.5'
       onChange={onChange}
     />
   )
