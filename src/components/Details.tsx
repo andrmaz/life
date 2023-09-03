@@ -4,10 +4,10 @@ interface Props {
 
 export const Details = ({list}: Props) => {
   return (
-    <dl>
+    <dl className='flex gap-6 my-2'>
       {list.map(({term, description}, index) => (
-        <div key={index}>
-          <dt>{term}</dt>
+        <div key={index} className='flex'>
+          <dt className='mr-1'>{term}</dt>
           <dd>{description}</dd>
         </div>
       ))}
