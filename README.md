@@ -23,4 +23,4 @@ that specifies:
 
 - the current generation number;
 - the grid size;
-- the population state (\* represents a live cell, v represents a dead cell).
+- the population state (\* represents a live cell, . represents a dead cell).
