@@ -1,3 +1,5 @@
+[![Deploy static content to Pages](https://github.com/andrmaz/life/actions/workflows/pages-build-deployment.yml/badge.svg)](https://github.com/andrmaz/life/actions/workflows/pages-build-deployment.yml)
+
 # Game of life
 
 ## Problem description
@@ -24,3 +26,5 @@ that specifies:
 - the current generation number;
 - the grid size;
 - the population state (\* represents a live cell, . represents a dead cell).
+
+The sample files can be found in the [public directory](https://github.com/andrmaz/life/tree/main/public)
