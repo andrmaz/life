@@ -35,11 +35,11 @@ function App() {
         {generation =>
           generation.map((axis, index) => {
             return (
-              <React.Fragment key={index + Math.random()}>
+              <React.Fragment key={index}>
                 {axis.map((state, index) => {
                   return (
                     <Cell
-                      key={index + Math.random()}
+                      key={index}
                       state={state}
                       rows={generation.length}
                       cols={generation[0].length}
